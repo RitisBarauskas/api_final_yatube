@@ -5,7 +5,7 @@ User = get_user_model()
 
 
 class Group(models.Model):
-    title = models.CharField(verbose_name="Название группы",
+    title = models.CharField(verbose_name='Название группы',
                              max_length=200)
 
     def __str__(self) -> str:
@@ -15,18 +15,18 @@ class Group(models.Model):
 class Post(models.Model):
     text = models.TextField()
     pub_date = models.DateTimeField(
-        "Дата публикации", auto_now_add=True
+        'Дата публикации', auto_now_add=True
     )
     author = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name="posts"
+        User, on_delete=models.CASCADE, related_name='posts'
     )
     group = models.ForeignKey(
         Group,
         on_delete=models.SET_NULL,
         blank=True,
         null=True,
-        related_name="posts",
-        verbose_name="Название группы",
+        related_name='posts',
+        verbose_name='Название группы',
         help_text='Выбери тематику или оставь заметку независимой'
     )
 
@@ -36,14 +36,14 @@ class Post(models.Model):
 
 class Comment(models.Model):
     author = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name="comments"
+        User, on_delete=models.CASCADE, related_name='comments'
     )
     post = models.ForeignKey(
-        Post, on_delete=models.CASCADE, related_name="comments"
+        Post, on_delete=models.CASCADE, related_name='comments'
     )
     text = models.TextField()
     created = models.DateTimeField(
-        "Дата добавления", auto_now_add=True, db_index=True
+        'Дата добавления', auto_now_add=True, db_index=True
     )
 
 
@@ -51,15 +51,20 @@ class Follow(models.Model):
     user = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
-        related_name="follower",
-        verbose_name="Подписчик"
+        related_name='follower',
+        verbose_name='Подписчик'
     )
     following = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
-        related_name="following",
-        verbose_name="Чисто автор"
+        related_name='following',
+        verbose_name='Чисто автор'
     )
 
     class Meta:
-        unique_together = ("user", "following")
+        constraints = [
+            models.UniqueConstraint(
+                fields=['user', 'following'],
+                name='uniq_follow'
+            )
+        ]
