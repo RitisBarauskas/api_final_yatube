@@ -5,13 +5,15 @@
 
 ### Технологии
 
-*Python
-*Django REST Framework
-*SQLite
-*HTML
+* Python
+* Django REST Framework
+* SQLite
+* HTML
 
 ### Развитие проекта
-В 2021 году будет доработан внешний вид сайта (использование CSS, JS).
+* В 2021 году будет доработан внешний вид сайта (использование CSS, JS).
+* Переход на PostgresQL
+* Разворачивание Docker с использованием nginx, gunicron
 
 ### Об авторе
 
